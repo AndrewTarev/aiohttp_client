@@ -1,19 +1,21 @@
-from typing import List, Dict
+from typing import List
 
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.api.orm.orm_operation import orm
+from src.core import Ticker
 from src.core.db_helper import db_helper
+from src.core.schemas.schemas import TickerOut
 
 router = APIRouter(prefix="/api/v1", tags=["coin_info"])
 
 
-@router.get("/prices")
+@router.get("/prices", response_model=List[TickerOut])
 async def get_prices(
     ticker: str,
     session: AsyncSession = Depends(db_helper.session_getter),
-):
+) -> List[Ticker]:
     """
     Получает список всех тикеров для заданной валюты.
 
@@ -31,11 +33,11 @@ async def get_prices(
     )
 
 
-@router.get("/prices/latest")
+@router.get("/prices/latest", response_model=TickerOut)
 async def get_last_price(
     ticker: str,
     session: AsyncSession = Depends(db_helper.session_getter),
-):
+) -> Ticker:
     """
     Получает последний тикер для заданной валюты.
 
@@ -53,13 +55,13 @@ async def get_last_price(
     )
 
 
-@router.get("/prices/filter")
+@router.get("/prices/filter", response_model=List[TickerOut])
 async def get_prices_by_date(
     ticker: str,
     start_date: int,
     end_date: int,
     session: AsyncSession = Depends(db_helper.session_getter),
-):
+) -> List[Ticker]:
     """
     Получает список тикеров для заданной валюты в указанном диапазоне дат.
 

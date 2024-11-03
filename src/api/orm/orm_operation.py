@@ -1,5 +1,3 @@
-from typing import List
-
 from fastapi import HTTPException
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -14,7 +12,7 @@ class OrmOperation:
     """
 
     @staticmethod
-    async def get_ticker_from_db(session: AsyncSession, ticker: str) -> List[Ticker]:
+    async def get_ticker_from_db(session: AsyncSession, ticker: str) -> list[Ticker]:
         """
         Получает список тикеров из базы данных по заданной валюте.
 
@@ -28,12 +26,12 @@ class OrmOperation:
         tickers = await OrmOperation.get_ticker_from_db(session, "btc_usd")
 
         """
-        query = select(Ticker).where(Ticker.currency == ticker)
+        query = select(Ticker).where(Ticker.ticker == ticker)
         results = await session.execute(query)
-        tickers = results.scalars().all()
+        ticker_instance = results.scalars().all()
         if not results:
             raise HTTPException(status_code=404, detail="Ticker not found")
-        return list(tickers)
+        return list(ticker_instance)
 
     @staticmethod
     async def get_last_ticker(session: AsyncSession, ticker: str) -> Ticker:
@@ -52,7 +50,7 @@ class OrmOperation:
         """
         query = (
             select(Ticker)
-            .where(Ticker.currency == ticker)
+            .where(Ticker.ticker == ticker)
             .order_by(Ticker.timestamp.desc())
             .limit(1)
         )
@@ -60,7 +58,7 @@ class OrmOperation:
         ticker_instance = result.scalars().first()
         if not ticker_instance:
             raise HTTPException(status_code=404, detail="Ticker not found")
-        return ticker_instance  # noqa
+        return ticker_instance
 
     @staticmethod
     async def get_filtered_tickers(
@@ -68,7 +66,7 @@ class OrmOperation:
         ticker: str,
         start_date: int,
         end_date: int,
-    ) -> List[Ticker]:
+    ) -> list[Ticker]:
         """
         Получает список тикеров из базы данных по заданной валюте и диапазону даты.
 
@@ -85,7 +83,7 @@ class OrmOperation:
 
         """
         query = select(Ticker).where(
-            Ticker.currency == ticker,
+            Ticker.ticker == ticker,
             Ticker.timestamp >= start_date,
             Ticker.timestamp <= end_date,
         )

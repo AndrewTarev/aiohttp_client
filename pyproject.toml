@@ -35,6 +35,23 @@ pydantic-settings = "^2.6.1"
 aiohttp = "^3.10.10"
 pytest-aioresponses = "^0.2.0"
 
+[tool.isort]
+profile = "black"
+line_length = 90
+multi_line_output = 3
+skip_gitignore = true
+skip_glob = ["**/alembic/*"]
+
+
+[tool.mypy]
+files = "my_project"
+ignore_missing_imports = true
+disallow_untyped_calls = true
+disallow_untyped_defs = true
+pretty = true
+strict_optional = true
+follow_imports = "silent"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"

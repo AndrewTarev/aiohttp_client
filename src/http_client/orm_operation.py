@@ -23,6 +23,6 @@ async def save_ticker_to_db(currency: str, price: str) -> None:
 
     async with db_helper.session_factory() as db_session:
         timestamp = int(time.time())
-        ticker: Ticker = Ticker(currency=currency, price=price, timestamp=timestamp)
+        ticker: Ticker = Ticker(ticker=currency, price=price, timestamp=timestamp)
         db_session.add(ticker)
         await db_session.commit()

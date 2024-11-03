@@ -1,7 +1,6 @@
 from dotenv import find_dotenv, load_dotenv
 from pydantic import BaseModel
-from pydantic_settings import BaseSettings, SettingsConfigDict
-
+from pydantic_settings import BaseSettings
 
 if not find_dotenv():
     exit("Переменные окружения не загружены, так как отсутствует файл .env")

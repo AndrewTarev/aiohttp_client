@@ -2,6 +2,7 @@ import asyncio
 import ssl
 
 import aiohttp
+from aiohttp import ClientSession
 
 from src.http_client.orm_operation import save_ticker_to_db
 
@@ -15,7 +16,7 @@ class DeribitClient:
 
     api_url = "https://deribit.com/api/v2/public/get_index_price"
 
-    async def fetch_index_price(self, session, currency) -> str:
+    async def fetch_index_price(self, session: ClientSession, currency: str) -> str:
         """
         Получает индексную цену для указанной валюты.
 
@@ -41,7 +42,7 @@ class DeribitClient:
             data = await response.json()
             return str(data["result"]["index_price"])
 
-    async def fetch_and_store_prices(self):
+    async def fetch_and_store_prices(self) -> None:
         """
         Бесконечный цикл для регулярного получения цен BTC и ETH и их хранения в базе данных.
 

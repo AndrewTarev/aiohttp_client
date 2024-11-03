@@ -1,13 +1,8 @@
-from unittest.mock import AsyncMock
-
 import aiohttp
 import pytest
-import asyncio
 from aioresponses import aioresponses
-from unittest.mock import AsyncMock, patch
 
 from src.http_client.http_client import DeribitClient
-from src.http_client.orm_operation import save_ticker_to_db
 
 
 @pytest.mark.asyncio
