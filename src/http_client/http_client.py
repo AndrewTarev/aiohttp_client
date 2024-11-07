@@ -1,10 +1,11 @@
+import asyncio
+import ssl
+
+import aiohttp
+
 from src.core.db_helper import db_helper
 from src.core.logging_config import my_logger
 from src.http_client.orm_operation import save_ticker_to_db
-
-import aiohttp
-import asyncio
-import ssl
 
 
 class DeribitClient:
