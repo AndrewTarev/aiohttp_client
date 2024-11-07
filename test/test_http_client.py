@@ -30,18 +30,14 @@ async def test_fetch_index_price():
 
 
 @pytest.mark.asyncio
-async def test_fetch_index_price_no_result():
+async def test_fetch_index_price_http_error():
     client = DeribitClient()
     currency = "btc_usd"
 
-    mock_response = {"jsonrpc": "2.0", "id": 1, "result": {}}
-
     with aioresponses() as m:
-        m.get(
-            f"https://deribit.com/api/v2/public/get_index_price?index_name={currency}",
-            payload=mock_response,
-        )
+        m.get(client.API_URL, status=500)
 
         async with aiohttp.ClientSession() as session:
-            with pytest.raises(KeyError):  # Мы ожидаем, что будет исключение KeyError
-                await client.fetch_index_price(session, currency)
+            price = await client.fetch_index_price(session, currency)
+
+        assert price is None  # Убедимся, что метод вернул None на ошибку
