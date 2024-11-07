@@ -16,6 +16,7 @@ greenlet = "^3.0.3"
 sqlalchemy = "^2.0.36"
 pydantic = "^2.9.2"
 pydentic = "^0.0.1.dev3"
+loguru = "^0.7.2"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -35,6 +36,7 @@ pydantic = "^2.9.2"
 pydantic-settings = "^2.6.1"
 aiohttp = "^3.10.10"
 pytest-aioresponses = "^0.2.0"
+loguru = "^0.7.2"
 
 [tool.isort]
 profile = "black"
